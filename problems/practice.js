@@ -1,53 +1,45 @@
-// pair sum array
+// Container with Most Water
+// Verify the constraints
+// Example 1: [1,7,2,8,1,6] - Max = Area(7,6)
+// Test cases:
+// Best Case : [7,1,2,3,9] - Area(L*W) Area(7,9) = Area(4*4)
+// Worst Case : [1,1,1,1,1] - Area(L*W) Area(1,1) = Area(0*0)
+// [] = 0
+// [7] = 0
+// [6,9,3,4,5,8]
+// Logical Brute Force Solution:
 
-// brute force solution  - Two pointer solution
-// Time complexity = O(n^2)
-// Space Complexity  = O(1)
-const findTwoSum = function (nums, target) {
-  for (let i = 0; i < nums.length; i++) {
-    const numberToFind = target - nums[i];
-    for (let j = 0; j < nums.length; j++) {
-      if (nums[j] === numberToFind) return { i, j };
+
+const maxWaterBrute = function (heights) {
+    let maxArea = 0;
+    for (let p1 = 0; p1 < heights.length; p1++) {
+        for (let p2 = p1 + 1; p2 < heights.length; p2++) {
+            maxArea = Math.max(maxArea, getArea(heights[p1], heights[p2], p2, p1))
+        }
     }
-  }
-  return null;
-};
+    return maxArea;
+}
 
-// Okay - optimized solution
-// Time complexity  = O(n log n)
-// Space complexity = O(1)
+const getArea = (a, b, bi, ai) => {
+    return Math.min(a, b) * (bi - ai);
+}
 
-const findTwoSumOkayOpti = function (nums, target) {
-  // always array sorted in ascending order
-  let left = 0;
-  let right = nums.length - 1;
-  while (left < right) {
-    let sum = nums[left] + nums[right];
-    if (sum === target) return { i: nums[left], j: nums[right] };
-    else if (sum > target) {
-      right--;
-    } else if (sum < target) {
-      left++;
+const maxWaterOpti = function (heights) {
+    let p1 = 0;
+    let p2 = heights.length - 1;
+    let maxArea = 0;
+    while (p1 < p2) {
+        const area = getArea(heights[p1], heights[p2], p2, p1);
+        maxArea = Math.max(maxArea, area);
+        if (heights[p1] <= heights[p2]) {
+            p1++;
+        } else {
+            p2--;
+        }
     }
-  }
-  return null;
-};
+    return maxArea;
+}
 
-// well - optimized solution
-// Time complexity  = O(n);
-// Space complexity  = O(n);
-const findTwoSumOpti = function (nums, target) {
-  const map = {};
-  for (let i = 0; i < nums.length; i++) {
-    let currentValMap = map[nums[i]];
-    if (currentValMap >= 0) {
-      return [currentValMap, i];
-    }
-    let numberToFind = target - nums[i];
-    map[numberToFind] = i;
-  }
-  return null;
-};
-console.log(findTwoSumOkayOpti([1, 2, 3, 4, 5, 6], 9));
+console.log(maxWaterOpti([7, 1, 2, 3, 9]))
 
-// container with most water  - return the area
+
