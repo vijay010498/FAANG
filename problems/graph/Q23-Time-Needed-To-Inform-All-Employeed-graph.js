@@ -15,3 +15,60 @@
 // informTime = [0,0,4,0,7,3,6,0] - inform all the employees
 
 // nery tree = graph - starting from headID
+
+
+// verifying our constraints and test cases
+// 1. Verify the constraints
+// Graphs variations generally - cyclic ?, unconnected ?, weighted ?, directed ?
+// Here it's a tree - so no cyclic
+// can employees have more than 1 manager - No - no cyclic
+// Does every employee have a manager - yes - not unconnected
+
+// 2. Test cases
+// Best case test case
+// n = 8, headID = 4, managers = [2,2,4,6,-1,4,4,5]
+// informTime = [0,0,4,0,7,3,6,0]
+// O/p = 13
+
+// Represent as an adjacency list
+// traverse the managers array
+//[[], [], [0,1], [], [2,5,6], [7], [3], []]
+
+const MANAGERS = [2, 2, 4, 6, -1, 4, 4, 5]
+const N = 8;
+const INFORM_TIME = [0, 0, 4, 0, 7, 3, 6, 0];
+
+function createAdjacencyList(N, managers = []) {
+    const adjacencyList = managers.map(() => []);
+    managers.forEach((manager, index) => {
+        if (manager >= 0) {
+            adjacencyList[manager].push(index)
+        }
+    });
+    return adjacencyList;
+}
+
+
+// Time  = O(N)
+// Space = O(N)
+const numOfMinutes = function (n, headId, managers, informTime) {
+    const adjacencyList = createAdjacencyList(n, managers)
+    return dfs(headId, adjacencyList, informTime)
+}
+
+const dfs = function (currentId, adjacencyList, informTime) {
+    if (adjacencyList[currentId].length === 0) {
+        return 0;
+    }
+    let max = 0;
+    const subordinates = adjacencyList[currentId];
+    for (let i = 0; i < subordinates.length; i++) {
+        max = Math.max(max, dfs(subordinates[i],adjacencyList, informTime))
+    }
+    return max + informTime[currentId];
+}
+
+console.log(numOfMinutes(N, 4, MANAGERS, INFORM_TIME));
+
+
+
