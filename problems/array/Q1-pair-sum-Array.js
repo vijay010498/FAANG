@@ -65,5 +65,14 @@ const subsqeuence = (array = [], sequence) => {
   return seqIDX === sequence.length
 }
 
+function sortedSquaredArray(array = []) {
+  const op = [];
+  // Write your code here.
+  array.forEach((ele, index) => {
+    op.push(ele * ele);
+  })
+  return op.sort((a,b) => a-b);
+}
 
-console.log(subsqeuence( [5, 1, 22, 25, 6, -1, 8, 10], [5, 1, 22, 25, 6, -1, 8, 10]));
+
+console.log(sortedSquaredArray([-3,-2,-1]));
