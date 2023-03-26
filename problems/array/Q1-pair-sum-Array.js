@@ -71,8 +71,63 @@ function sortedSquaredArray(array = []) {
   array.forEach((ele, index) => {
     op.push(ele * ele);
   })
-  return op.sort((a,b) => a-b);
+  return op.sort((a, b) => a - b);
 }
 
 
-console.log(sortedSquaredArray([-3,-2,-1]));
+// Longest Range
+function largestRange(array = []) {
+  const map = new Map();
+  let maxLength = 0;
+  let maxLengthArrays = [];
+  let maxLengthRange = [];
+  // add booleans into map
+  array.forEach((val, index) => {
+    map.set(val, false);
+  });
+
+  for (let i = 0; i < array.length; i++) {
+    let currentVal = array[i];
+    if (map.get(currentVal)) {
+      continue;
+    }
+    let length = 1;
+    const lengthArr = [currentVal];
+
+    // traverse left
+    while (true) {
+      const valToFind = currentVal - 1;
+      if (!map.has(valToFind) || map.get(valToFind)) {
+        break;
+      }
+      length++;
+      lengthArr.push(valToFind);
+      map.set(valToFind, true);
+      currentVal = valToFind;
+    }
+
+    currentVal = array[i];
+    // traverse right
+    while (true) {
+      const valToFind = currentVal + 1;
+      if (!map.has(valToFind) || map.get(valToFind)) {
+        break;
+      }
+      length++;
+      lengthArr.push(valToFind);
+      map.set(valToFind, true);
+      currentVal = valToFind;
+    }
+
+
+    map.set(currentVal, true);
+    if (length >= maxLength) {
+      maxLengthArrays = lengthArr;
+      maxLength = length;
+      maxLengthRange = [Math.min(...lengthArr), Math.max(...lengthArr)];
+    }
+  }
+  return maxLengthRange
+}
+
+console.log(largestRange([-7, -7, -7, -7, 8, -8, 0, 9, 19, -1, -3, 18, 17, 2, 10, 3, 12, 5, 16, 4, 11, -6, 8, 7, 6, 15, 12, 12, -5, 2, 1, 6, 13, 14, -4, -2]));
