@@ -67,4 +67,4 @@ const maxLengthOpti = (string) => {
   return maxLength;
 };
 
-console.log(maxLengthOpti("abcd"));
+console.log(maxLengthOpti("abcabcbb"));
