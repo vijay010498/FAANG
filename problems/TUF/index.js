@@ -614,6 +614,42 @@ root2.left.right = new TreeNode(5);
 // starts with prefix
 
 
+class Store {
+  constructor() {
+    this.values = [];
+    this.map = new Map();
+  }
+
+  insert(value) {
+    if (!this.map.has(value)) {
+      this.values.push(value);
+      this.map.set(value, (this.values.length - 1));
+    }
+  }
+
+  remove(value) {
+    if (this.map.has(value)) {
+      const lastArrValue = this.values[this.values.length - 1];
+      this.values[this.map.get(value)] = lastArrValue
+      this.values[this.values.length - 1] = value;
+      this.map.set(lastArrValue, this.map.get(value));
+      this.values.pop();
+      this.map.delete(value);
+    }
+  }
+}
+
+// const store = new Store();
+// store.insert(10);
+// store.insert(20);
+// store.insert(30);
+// console.log(store);
+// store.remove(20);
+// store.remove(30);
+// store.remove(10);
+// console.log(store);
+
+
 class TrieNode {
   constructor() {
     this.links = new Array(26).fill(null);
@@ -916,14 +952,14 @@ class Trie1 {
     }
 
 
-    const dfs = (node = new TrieNode1(), path =  []) => {
+    const dfs = (node = new TrieNode1(), path = []) => {
       if (node.getEnd() > 0) {
         const suggestion = path.join('');
         if (checkSuffix(suggestion)) suggestions.push(suggestion);
       }
 
 
-      for (let i = 0 ; i < node.links.length; i++) {
+      for (let i = 0; i < node.links.length; i++) {
         if (node.links[i] !== null) {
           path.push(String.fromCharCode(i + "a".charCodeAt(0)));
           dfs(node.links[i], path);
@@ -947,6 +983,108 @@ trie1.insert('amazon');
 trie1.insert('alien');
 trie1.insert('vi');
 
-console.log(trie1.getAutoCompletionWords('al'));
-console.log(trie1.getAutoCompletionWordsBfs('ap'));
-console.log(trie1.getAutoCompletionSiffix('n'));
+
+// Stack and Queue
+
+// Stack - LIFO
+
+// implement stack using array
+// push
+// top
+// top
+
+
+class Stack {
+  constructor() {
+    this.values = []
+    this.top = -1;
+  }
+
+  push(value) {
+    this.values[++this.top] = value
+  }
+
+  getTop() {
+    return this.values[this.top];
+  }
+
+  pop() {
+    this.values.pop();
+    this.top--
+  }
+
+  size() {
+    return this.top + 1;
+  }
+
+  isEmpty() {
+    return this.top === -1;
+  }
+}
+
+
+const stack = new Stack()
+stack.push(10)
+stack.push(20)
+stack.push(30)
+stack.push(40)
+stack.push(50)
+
+// console.log(stack);
+// console.log(stack.getTop());
+// console.log(stack.isEmpty());
+// stack.pop();
+// console.log(stack);
+// console.log(stack.getTop());
+
+
+// queue using array - Queue - FIFO
+
+class Queue {
+  constructor() {
+    this.values = [];
+    this.front = 0;
+    this.rear = 0;
+  }
+
+  push(value) {
+    this.values[this.rear] = value;
+    this.rear++;
+  }
+
+  top() {
+    if (this.front === this.rear) return null;
+    return this.values[this.front];
+  }
+
+  pop() {
+    if (this.front === this.rear) return null;
+    this.values[this.front] = undefined;
+    this.front++;
+  }
+}
+
+
+// const queue = new Queue();
+// queue.push(10)
+// queue.push(20)
+// queue.push(30)
+// queue.push(40)
+// console.log(queue);
+// console.log(queue.pop());
+// console.log(queue);
+// console.log(queue.top());
+
+
+// Implement Stack using single Queue
+// Stack - LIFO
+// Queue - FIFI
+// two queues
+
+
+
+class StackQueue {
+  constructor() {
+
+  }
+}
