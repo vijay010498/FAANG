@@ -1,4 +1,4 @@
-import {Node} from "./BstNode";
+import {Node} from "./BstNodeWithHashing";
 import {createHash} from 'crypto';
 
 class Bst {
